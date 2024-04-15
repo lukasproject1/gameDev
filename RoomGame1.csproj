@@ -1,0 +1,366 @@
+﻿using System;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
+using System.Numerics;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography;
+
+namespace RoomGame1
+{
+    internal class Program
+    {
+        
+        static void Main(string[] args)
+        {
+
+            int sp = 700; 
+            {
+
+                //een spel met kamers
+                //ik kan van kamer naar kamer
+                //ik begin in een kamer
+                //en eindig in een kamer
+                //de kamers hebben gangen naar elkaar
+                //ik kan aangeven welke kamer met welke kamer verbonden is
+                Rooms startRoom = new Rooms("Start room");
+                Rooms corridor = new Rooms("Corridor");
+                Item apple = new Item("apple");
+                
+                Rooms kitchen = new Rooms("Kitchen");
+                Rooms laundryRoom = new Rooms("Laundry room");
+                Rooms exit = new Rooms("exit");
+                Rooms bedRoom = new Rooms("Bedroom");
+                Rooms bathRoom = new Rooms("Bathroom");
+                Rooms livingRoom = new Rooms("livingroom");
+                Rooms library = new Rooms("library");
+
+                
+                startRoom.AddRoom(corridor);
+
+                
+                
+                corridor.AddRoom(laundryRoom);
+                corridor.AddRoom(livingRoom);
+                corridor.AddItems(apple);
+
+                laundryRoom.AddRoom(bedRoom);
+                laundryRoom.AddRoom(corridor);
+
+                livingRoom.AddRoom(corridor);
+                livingRoom.AddRoom(library);
+                livingRoom.AddRoom(bedRoom);
+                livingRoom.AddRoom(exit);
+
+                library.AddRoom(livingRoom);
+
+                bedRoom.AddRoom(bathRoom);
+                bedRoom.AddRoom(livingRoom);
+
+                bathRoom.AddRoom(bedRoom);
+                bathRoom.AddRoom(kitchen);
+
+                kitchen.AddRoom(bathRoom);
+                kitchen.AddRoom(exit);
+
+                exit.AddRoom(kitchen);
+                exit.AddRoom(livingRoom);
+                Rooms currentRoom = startRoom;
+                //in een loop
+                //output welke kamer we zijn
+                //output wat de keuzes zijn
+                //keuzes interpreteren
+                //naar die kamer gaan
+                //opnieuw
+
+
+
+                
+
+                Inventory inventory = new Inventory();
+               
+                List<Item> items = inventory.GetItems();
+                List<MainName> LeadName = new List<MainName>();
+                MainName mainName = new MainName();
+                string leadName;
+
+                Console.WriteLine("wat is your name");
+                Console.Write(":");
+               string leadNameInput = Console.ReadLine();
+                leadName = leadNameInput;
+                mainName.Name = leadNameInput;
+                Console.WriteLine(mainName.Name);
+
+
+
+                bool talkedToJerry = false;
+                bool talkedLaundryRoom = false;
+                bool talkedLivingRoom=false;
+                bool talkedLibrary= false;
+                while (true)
+                {
+
+
+                    if (currentRoom == startRoom)
+                    {
+ #region begin verhaal
+                        Console.Write("The story  ");
+                        Thread.Sleep(sp);
+                        Console.Write("begins in  ");
+                        Thread.Sleep(sp);
+                        Console.WriteLine("the forest. ");
+                        Thread.Sleep(sp);
+                        Console.Write("You are  ");
+                        Thread.Sleep(sp-30);
+                        Console.Write("one of ");
+                        Thread.Sleep(sp-40);
+                        Console.Write("the survivors ");
+                        Thread.Sleep(sp);
+                        Console.Write("of the ");
+                        Thread.Sleep(sp);
+                        Console.WriteLine("zombie apocalypse. ");
+                        Thread.Sleep(sp);
+                        Console.Write("You are running ");
+                        Thread.Sleep(sp);
+                        Console.Write("from zombies and zombie dogs ");                       
+                        Thread.Sleep(sp+100);
+                        Console.Write("but you are ");
+                        Thread.Sleep(sp);
+                        Console.WriteLine("out of bullets. ");
+                        Thread.Sleep(sp);
+                        Console.Write("your hear ");
+                        Thread.Sleep(sp);
+                        Console.Write("your friends shouting ");
+                        Thread.Sleep(sp);
+                        Console.Write("in the distance, ");
+                        Thread.Sleep(sp);
+                        Console.WriteLine("\"Everyone, come into the house!\" ");
+                        Thread.Sleep(sp+35);
+                        Console.Write("You run towards ");
+                        Thread.Sleep(sp);
+                        Console.WriteLine("the house.");
+                        Thread.Sleep(sp+30);
+                        Console.Write("The door slams shut behind you ");
+                        Thread.Sleep(sp);
+                        Console.Write("with the barking ");
+                        Thread.Sleep(sp);
+                        Console.Write("of the dogs ");
+                        Thread.Sleep(sp);
+                        Console.WriteLine("on the other side.");
+                        Thread.Sleep(sp);
+                        Console.WriteLine();
+                        Console.WriteLine("Jerry:\"Shit, we're not all here.\"");
+                        Thread.Sleep(sp+2500);
+                        Console.WriteLine();
+                        Console.WriteLine("Rashaad: \"Where are my friends?\"");
+                        Thread.Sleep(sp+2000);
+                        Console.WriteLine();
+                        Console.WriteLine("yannick:\"Sorry, man, but they didn't make it.\"");
+                        Thread.Sleep(sp + 2000);
+                        Console.WriteLine();
+                        Console.WriteLine("Rashaad: \"No! Anissa, what about Laura please.\"");
+                        Thread.Sleep(sp + 2000);
+                        Console.WriteLine();
+                        Console.WriteLine("Yannick: \"Sorry, man, but this is not the time to cry; we need to get to that military base.\"");
+                        Thread.Sleep(sp + 2000);
+                        Console.WriteLine();
+                        Console.WriteLine($"{mainName.Name}:\"Do you think all those zombies are still at the door?\"");
+                        Thread.Sleep(sp + 2000);
+                        Console.WriteLine();
+                        Console.WriteLine("Jerry: \"I don't see them anymore; let me check.\"");
+                        Thread.Sleep(sp + 2000);
+                        Console.WriteLine();
+                        Console.WriteLine("Jerry tries to open the door but it's stuck.");
+                        Thread.Sleep(sp + 400);
+                        Console.WriteLine("Jerry: \"The door is stuck.\"");
+                        Thread.Sleep(sp + 400);
+                        Console.WriteLine();
+                        Console.WriteLine("\"Yannick: Shit, we need to find another way out.\"");
+                        Thread.Sleep(sp + 2000);
+                        Console.WriteLine();
+                        Console.WriteLine($"{mainName.Name}: \"This is a big house.\"");
+                        Thread.Sleep(sp + 2000);
+                        Console.WriteLine();
+                        Console.WriteLine("Yannick: \"Yeah, so let's split up.\"");
+                        Console.WriteLine();
+                        Thread.Sleep(sp + 300);
+
+
+
+                        #endregion
+                    }
+
+
+                    Console.WriteLine($"You're in the {currentRoom.GetRoomName()}");
+                    //Console.WriteLine("the folowing items are in the room");
+                    List<Item> itemsInroom = currentRoom.GetItmes();
+                    foreach (Item item in itemsInroom)
+                    {
+                        Console.WriteLine(item.GetName());
+                    }
+
+                    /* Console.WriteLine("You've got the following items in your inventory");
+                     List<Item> itemsInInventory = inventory.GetItems();
+                     for (int i = 0; i < itemsInInventory.Count; i++)
+                     {
+                         Console.WriteLine($"{i} - {itemsInInventory[i].GetName()}");
+                     }
+                    */
+
+                    List<Rooms> choices = currentRoom.GetConnectedRooms();
+                    for (int i = 0; i < choices.Count; i++)
+                    {
+                        Console.WriteLine($"{i} - {choices[i].GetRoomName()}");
+                        //Console.WriteLine($");
+                    }
+                    Console.WriteLine("Where do you want to go? enter the number");
+                    string input = Console.ReadLine();
+                    int inputInt;
+                    int.TryParse(input, out inputInt);
+                    currentRoom = choices[inputInt];
+
+                    #region coridor
+
+                    if(currentRoom==corridor)
+                    {
+                        Console.WriteLine();
+                    }
+
+
+
+
+
+
+
+
+
+
+                    #endregion
+                    #region laundry room
+                    
+                    if (currentRoom == laundryRoom && !talkedLaundryRoom)
+                    {
+                        Console.WriteLine() ;
+                        Console.WriteLine(" 0 talk to jerry");
+                        Console.WriteLine("1 move on");
+                        input = Console.ReadLine();
+                        int.TryParse(input, out inputInt);
+                        if (inputInt == 0)
+                        {
+                            Console.WriteLine("Jerry: \"What is this house? This laundry room is as big as my own room back home.\"");
+                            Thread.Sleep(sp + 1000);
+                            Console.WriteLine();
+                            Console.WriteLine($"{mainName.Name}: \"Have you found an exit?\"");
+                            Thread.Sleep(sp + 1000);
+                            Console.WriteLine();
+                            Console.WriteLine("Jerry: \"No, but I found this weird gem here tak it\"");
+                            talkedLaundryRoom = false;
+                            talkedToJerry = true;
+
+
+
+                        }
+                        else if(currentRoom==laundryRoom && talkedLaundryRoom )
+                        {
+                            Console.WriteLine("1 move on");
+                            Console.ReadLine();
+                        }
+
+                        
+                    }
+
+
+                    #endregion
+                    #region livingroom
+                    if (currentRoom == livingRoom && !talkedLivingRoom)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("0 talk to yannick");
+                        Console.WriteLine("1 move on");
+                        input = Console.ReadLine();
+                        int.TryParse(input, out inputInt);
+                        if (inputInt == 0)
+                        {
+                            Console.WriteLine("Yannick: \"We need to keep looking; we need to escape from this hellhole and find a safe place.\"");
+                            Thread.Sleep(sp + 1000);
+                            Console.WriteLine();
+                            Console.WriteLine($"{mainName.Name}: \"Don’t worry; we will find an exit.\"");
+                            Thread.Sleep(sp + 1000);
+                            Console.WriteLine();
+                            Console.WriteLine("Yannick: \"Let’s keep looking.\"");
+                            talkedLivingRoom = true;
+                        }
+                    }
+                    else if (currentRoom == livingRoom && talkedLivingRoom)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("move on");
+                        Console.ReadLine();
+                        
+
+                    }
+
+
+
+
+
+
+                    #endregion
+                    #region library
+
+                    if (currentRoom == library&& !talkedLibrary)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("0 talk to Rashaad");
+                        Console.WriteLine("1 inspect piano");
+                        Console.WriteLine("2 move on ");
+                        input= Console.ReadLine();
+                        int.TryParse(input, out inputInt);
+                        if(inputInt == 0)
+                        {
+                            Console.WriteLine() ;
+                            Console.WriteLine($"Rashaad: {mainName.Name}, have you ever seen a piano like that?");
+                            Thread.Sleep(sp + 1000);
+                            Console.WriteLine();
+                            Console.WriteLine("Rashaad points to an old grand piano.");
+                            Thread.Sleep(sp + 1000);
+                            Console.WriteLine();
+                            Console.WriteLine($"{ mainName.Name}:Half of the music sheet is missing.");
+                            Thread.Sleep(sp+1000);
+                            Console.WriteLine();
+                            Console.WriteLine("Rashaad: Maybe it's somewhere in this room.");
+                            Console.WriteLine();
+                            talkedLibrary = true;
+                            
+
+                            
+                        }
+                        if (inputInt == 1) 
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("its a grant piano. there is a sheet of music notes on the piano but it looks ript in haf");
+
+                        }
+
+                    }
+                    else if (currentRoom == livingRoom && talkedLibrary)
+                    {
+
+
+                    }
+                    #endregion
+
+
+
+
+                    foreach (Item item in items)
+                        {
+                        Console.WriteLine(item.GetName());
+                        }
+
+                    
+                }
+            }
+        }
+    }
+}
